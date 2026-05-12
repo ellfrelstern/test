@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdVibe Calc | Kira Permit PBT Auto</title>
+    <title>AdVibe Calc | Kira Permit PBT by ell Auto</title>
     <style>
         :root {
             --primary: #6366f1;
@@ -64,6 +64,241 @@
             margin-bottom: 20px;
         }
 
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 2px solid var(--accent);
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .total-price {
+            font-size: 2rem;
+            color: white;
+            margin: 20px 0;
+            font-weight: 800;
+        }
+
+        .close-btn {
+            background: #ef4444;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .rules-section {
+            background: rgba(255,255,255,0.03);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .rules-section h3 {
+            color: var(--secondary);
+            border-left: 4px solid var(--secondary);
+            padding-left: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>adVibe_calc ✨</h1>
+        <p>Kira permit PBT secepat kilat. Auto-calculate, no cap.</p>
+    </header>
+
+    <div class="container">
+        <div class="calc-card">
+            <div class="form-group">
+                <label>Jenis Iklan</label>
+                <select id="adType">
+                    <option value="bunting">Bunting (Lampu Jalan/Tiang)</option>
+                    <option value="banner">Banner (Melintang)</option>
+                    <option value="papan_tanda">Papan Tanda (Premis)</option>
+                </select>
+            </div>
+
+            <div class="grid-inputs">
+                <div class="form-group">
+                    <label>Lebar (Kaki)</label>
+                    <input type="number" id="width" value="2">
+                </div>
+                <div class="form-group">
+                    <label>Tinggi (Kaki)</label>
+                    <input type="number" id="height" value="5">
+                </div>
+            </div>
+
+            <div class="grid-inputs">
+                <div class="form-group">
+                    <label>Jumlah Unit</label>
+                    <input type="number" id="units" value="10">
+                </div>
+                <div class="form-group">
+                    <label>Tempoh (Bulan)</label>
+                    <input type="number" id="months" value="1">
+                </div>
+            </div>
+
+            <button onclick="calculate()">Hitung Harga Sekarang</button>
+        </div>
+
+        <div class="rules-section">
+            <h3>📜 Syarat Permohonan Permit</h3>
+            <ul style="padding-left: 20px; font-size: 0.95rem;">
+                <li>Iklan mesti dalam Bahasa Melayu (Tulisan Jawi digalakkan).[span_1](start_span)[span_1](end_span)</li>
+                <li>Iklan tidak boleh menghalang pandangan lalu lintas atau menutup papan tanda jalan.[span_2](start_span)[span_2](end_span)</li>
+                <li>Pemasangan hanya dibenarkan di lokasi yang telah diluluskan PBT sahaja.[span_3](start_span)[span_3](end_span)</li>
+                <li>Pelekat (Sticker) permit PBT mestilah ditampal pada setiap unit iklan.[span_4](start_span)[span_4](end_span)</li>
+                <li>Deposit akan dipulangkan selepas pengiklan menanggalkan iklan sendiri dalam tempoh 14 hari selepas tamat permit.[span_5](start_span)[span_5](end_span)</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made with ❤️ by ell</p>[span_6](start_span)[span_6](end_span)
+    </footer>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h2>Estimasi Bayaran</h2>
+            <div id="resultDetails"></div>
+            <div class="total-price" id="totalDisplay"></div>
+            <button class="close-btn" onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const type = document.getElementById('adType').value;
+            const w = parseFloat(document.getElementById('width').value);
+            const h = parseFloat(document.getElementById('height').value);
+            const units = parseInt(document.getElementById('units').value);
+            const months = parseInt(document.getElementById('months').value);
+
+            let ratePerSqFt = 0.50; 
+            let depositPerUnit = 20; 
+            const stickerFee = 2.00;[span_7](start_span)[span_7](end_span)
+
+            if(type === 'bunting') {
+                ratePerSqFt = 0.60;
+                depositPerUnit = 15;
+            } else if(type === 'banner') {
+                ratePerSqFt = 0.50;
+                depositPerUnit = 30;
+            } else {
+                ratePerSqFt = 1.20; 
+                depositPerUnit = 100;
+            }
+
+            const area = w * h;
+            const permitFee = area * ratePerSqFt * units * months;
+            const totalDeposit = depositPerUnit * units;
+            const totalSticker = stickerFee * units;
+            const grandTotal = permitFee + totalDeposit + totalSticker;
+
+            const detailsHtml = `
+                <div class="price-row"><span>Keluasan:</span> <span>${area} sqft</span></div>
+                <div class="price-row"><span>Caj Permit:</span> <span>RM ${permitFee.toFixed(2)}</span></div>
+                <div class="price-row"><span>Caj Sticker:</span> <span>RM ${totalSticker.toFixed(2)}</span></div>
+                <div class="price-row"><span>Deposit (Refundable):</span> <span>RM ${totalDeposit.toFixed(2)}</span></div>
+            `;
+
+            document.getElementById('resultDetails').innerHTML = detailsHtml;
+            document.getElementById('totalDisplay').innerText = "RM " + grandTotal.toFixed(2);
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
         label {
             display: block;
             margin-bottom: 8px;
