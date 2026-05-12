@@ -16,91 +16,35 @@
             --accent: #22d3ee; 
         }
         
-        body { 
-            background-color: var(--bg);
-            background-image: 
-                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            color: var(--text); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            padding-bottom: 50px;
-            overflow-x: hidden;
-        }
+        body { background-color: var(--bg); background-image: linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px); background-size: 40px 40px; color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 50px; overflow-x: hidden; }
 
-        @keyframes headerSlideUp {
-            0% { transform: translateY(30px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes headerSlideUp { 0% { transform: translateY(30px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeInSlow { 0% { opacity: 0; } 100% { opacity: 0.7; } }
+        @keyframes headerGlow { 0%, 100% { text-shadow: 0 0 10px rgba(34, 211, 238, 0.2); color: #fff; } 50% { text-shadow: 0 0 25px rgba(34, 211, 238, 0.8), 0 0 40px rgba(99, 102, 241, 0.3); color: var(--accent); } }
 
-        @keyframes fadeInSlow {
-            0% { opacity: 0; }
-            100% { opacity: 0.7; }
-        }
-
-        @keyframes headerGlow {
-            0%, 100% { text-shadow: 0 0 10px rgba(34, 211, 238, 0.2); color: #fff; }
-            50% { text-shadow: 0 0 25px rgba(34, 211, 238, 0.8), 0 0 40px rgba(99, 102, 241, 0.3); color: var(--accent); }
-        }
-
-        header { 
-            background: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.4) 0, transparent 50%), 
-                        radial-gradient(at 100% 0%, rgba(34, 211, 238, 0.4) 0, transparent 50%);
-            background-color: #0f172a;
-            padding: 60px 20px; 
-            text-align: center; 
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        header h1 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 3rem; 
-            margin: 0; 
-            animation: headerSlideUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards, headerGlow 4s infinite ease-in-out;
-        }
-
-        header p { 
-            font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; font-weight: 700; color: var(--accent); opacity: 0;
-            animation: fadeInSlow 1.5s ease-out 0.8s forwards;
-        }
+        header { background: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.4) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(34, 211, 238, 0.4) 0, transparent 50%); background-color: #0f172a; padding: 60px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; animation: headerSlideUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards, headerGlow 4s infinite ease-in-out; }
+        header p { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; font-weight: 700; color: var(--accent); opacity: 0; animation: fadeInSlow 1.5s ease-out 0.8s forwards; }
 
         .container { max-width: 420px; margin: -30px auto 20px; padding: 0 15px; position: relative; z-index: 2; }
-        .card { 
-            background: rgba(30, 41, 59, 0.9); padding: 25px; border-radius: 20px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            animation: headerSlideUp 1s ease-out 0.3s backwards;
-        }
-        
+        .card { background: rgba(30, 41, 59, 0.9); padding: 25px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); animation: headerSlideUp 1s ease-out 0.3s backwards; }
         .divider { height: 1px; background: rgba(255, 255, 255, 0.05); margin: 20px 0; border: none; }
-
         label { display: block; color: var(--accent); font-size: 9px; margin-bottom: 5px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         select, input { width: 100%; padding: 12px; margin-bottom: 8px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; box-sizing: border-box; font-size: 14px; outline: none; transition: 0.3s; }
-        select:focus, input:focus { border-color: var(--accent); }
+        .btn-kira { width: 100%; padding: 16px; background: linear-gradient(45deg, var(--accent), var(--primary)); color: #0f172a; border: none; border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
+
+        .floating-group { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 10; }
+        .fab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .fab { width: 45px; height: 45px; background: var(--card-bg); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 18px; }
+        .fab-title { color: var(--accent); font-size: 7px; font-weight: 800; text-transform: uppercase; opacity: 0.8; }
+
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.9); align-items: center; justify-content: center; z-index: 99; backdrop-filter: blur(5px); }
+        .modal-box { background: var(--card-bg); padding: 25px; border-radius: 28px; width: 85%; max-width: 330px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         
-        .unit-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px; }
-        .main-unit-select { width: auto; padding: 3px 8px; height: 26px; font-size: 9px; border-radius: 5px; color: var(--accent); font-weight: 800; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.2); }
-
-        button.btn-kira { 
-            width: 100%; padding: 16px; background: linear-gradient(45deg, var(--accent), var(--primary)); 
-            color: #0f172a; border: none; border-radius: 12px; font-weight: 900; text-transform: uppercase; 
-            cursor: pointer; transition: 0.3s; box-shadow: 0 8px 15px rgba(34, 211, 238, 0.15); font-size: 13px; margin-top: 10px;
-        }
-
-        .floating-group { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 10; }
-        .fab { width: 42px; height: 42px; background: var(--card-bg); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 16px; cursor: pointer;}
-
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.85); align-items: center; justify-content: center; z-index: 99; backdrop-filter: blur(5px); }
-        .modal-box { background: var(--card-bg); padding: 25px; border-radius: 28px; width: 85%; max-width: 330px; border: 1px solid rgba(255,255,255,0.1); text-align: center; animation: headerSlideUp 0.4s ease-out forwards; }
-        
-        .total-display { font-size: 38px; font-weight: 900; margin: 15px 0; color: var(--accent); letter-spacing: -1px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 12px; }
+        .total-display { font-size: 38px; font-weight: 900; margin: 15px 0; color: var(--accent); }
+        .row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .row span:first-child { color: #94a3b8; }
         .row span:last-child { color: white; font-weight: 700; }
-
-        .footer-custom { text-align: center; padding: 40px 25px 50px; color: #94a3b8; font-size: 11px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin: 40px auto 0; max-width: 400px; }
-        .signature { margin-top: 25px; font-size: 12px; font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -113,100 +57,58 @@
 <div class="container">
     <div class="card">
         <label>Jenis Iklan</label>
-        <select id="type">
-            <option value="bunting">Bunting / Fishtail</option>
-            <option value="banner">Banner</option>
-        </select>
-
+        <select id="type"><option value="bunting">Bunting / Fishtail</option><option value="banner">Banner</option></select>
         <hr class="divider">
-
-        <div class="unit-header">
-            <label style="margin-bottom:0;">Ukuran</label>
-            <select id="main_unit" class="main-unit-select">
-                <option value="ft">FT</option>
-                <option value="m">M</option>
-            </select>
+        <div class="unit-header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+            <label>Ukuran</label>
+            <select id="main_unit" style="width:auto; padding:3px 8px; font-size:9px;"><option value="ft">FT</option><option value="m">M</option></select>
         </div>
-
         <div style="display:flex; gap:10px;">
             <div style="flex:1"><label>Lebar</label><input type="number" id="w" value="2"></div>
             <div style="flex:1"><label>Tinggi</label><input type="number" id="h" value="5"></div>
         </div>
-
         <hr class="divider">
-
         <div style="display:flex; gap:10px;">
-            <div style="flex:1"><label>Unit / Keping</label><input type="number" id="units" value="1"></div>
+            <div style="flex:1"><label>Unit</label><input type="number" id="units" value="1"></div>
             <div style="flex:1"><label>Bulan</label><input type="number" id="months" value="1"></div>
         </div>
-
         <button class="btn-kira" onclick="kira()">Kira</button>
     </div>
 </div>
 
-<!-- Modal Result -->
-<div id="modalRes" class="modal">
-    <div class="modal-box">
-        <h2 style="color:var(--accent); margin-top:0; font-family: 'Playfair Display', serif; font-size: 22px;">Result</h2>
-        <div id="res"></div>
-        <div class="total-display" id="total"></div>
-        <button style="background:none; border:1px solid #444; color:white; padding:10px 20px; border-radius:10px; cursor:pointer;" onclick="document.getElementById('modalRes').style.display='none'">Tutup</button>
-    </div>
+<div class="floating-group">
+    <div class="fab-item" onclick="bukaModal('modalGuide')"><div class="fab">📖</div><span class="fab-title">Guide</span></div>
+    <div class="fab-item" onclick="bukaModal('modalSwap')"><div class="fab">🔄</div><span class="fab-title">Swap</span></div>
 </div>
 
-<footer class="footer-custom">
-    <p>*Punca kuasa yang dipakai iaitu <strong>The Sarawak Local Authorities (Advertisement) By-laws</strong>.</p>
-    <p>Pertanyaan: <strong style="color:var(--accent)">ellfres@sarawak.gov.my</strong></p>
-    <div class="signature">&copy; 2026 ell</div>
-</footer>
+<!-- Modals -->
+<div id="modalGuide" class="modal"><div class="modal-box"><h2 style="color:var(--accent)">Guide</h2><p style="color:#94a3b8; font-size:12px;">[Maklumat akan datang]</p><button onclick="tutupAll()" style="background:#444; border:none; color:white; padding:10px 20px; border-radius:10px;">Tutup</button></div></div>
+
+<div id="modalSwap" class="modal"><div class="modal-box"><h2 style="color:var(--accent)">Converter</h2><input type="number" id="mIn" placeholder="METER" oninput="mToFt()"><input type="number" id="ftIn" placeholder="FEET" oninput="ftToM()"><button onclick="tutupAll()" style="background:#444; border:none; color:white; padding:10px 20px; border-radius:10px;">Tutup</button></div></div>
+
+<div id="modalRes" class="modal"><div class="modal-box"><h2 style="color:var(--accent)">Result</h2><div id="res"></div><div class="total-display" id="total"></div><button onclick="tutupAll()" style="background:#444; border:none; color:white; padding:10px 20px; border-radius:10px;">Tutup</button></div></div>
 
 <script>
+    function bukaModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function tutupAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function mToFt() { const m = document.getElementById('mIn').value; document.getElementById('ftIn').value = (m * 3.28084).toFixed(2); }
+    function ftToM() { const ft = document.getElementById('ftIn').value; document.getElementById('mIn').value = (ft / 3.28084).toFixed(2); }
+
     function kira() {
         const type = document.getElementById('type').value;
-        const rawW = parseFloat(document.getElementById('w').value) || 0;
-        const rawH = parseFloat(document.getElementById('h').value) || 0;
-        const unitType = document.getElementById('main_unit').value;
         const units = parseInt(document.getElementById('units').value) || 0;
-        const months = parseInt(document.getElementById('months').value) || 0;
-
-        // 1. Logik Tukaran & Kadar
-        let w_ft = (unitType === 'm') ? rawW * 3.28084 : rawW;
-        let h_ft = (unitType === 'm') ? rawH * 3.28084 : rawH;
+        const w_ft = (document.getElementById('main_unit').value === 'm') ? document.getElementById('w').value * 3.28084 : document.getElementById('w').value;
+        const h_ft = (document.getElementById('main_unit').value === 'm') ? document.getElementById('h').value * 3.28084 : document.getElementById('h').value;
         
-        let ratePerSqft = (type === 'bunting') ? 0.60 : 0.50;
-        // Kadar dipaparkan ikut unit pilihan
-        let displayRate = (unitType === 'm') ? (ratePerSqft * 10.7639).toFixed(2) : ratePerSqft.toFixed(2);
+        let rate = (type === 'bunting') ? 0.60 : 0.50;
+        let permit = w_ft * h_ft * rate * units * document.getElementById('months').value;
+        let sticker = 2.00 * units;
+        let deposit = (units > 0) ? 100 + (Math.max(0, Math.ceil((units - 50) / 50)) * 50) : 0;
         
-        // 2. Kira Permit & Sticker
-        let totalPermit = (w_ft * h_ft) * ratePerSqft * units * months;
-        let totalSticker = 2.00 * units;
-
-        // 3. Logik Deposit Berperingkat (Scaling)
-        // 1-50: RM100, Seterusnya setiap 50 unit: +RM50
-        let totalDeposit = 0;
-        if(units > 0) {
-            totalDeposit = 100; // Harga asas untuk 1-50 pertama
-            if(units > 50) {
-                let tambahan50 = Math.ceil((units - 50) / 50);
-                totalDeposit += (tambahan50 * 50);
-            }
-        }
-
-        let grand = totalPermit + totalSticker + totalDeposit;
-
-        document.getElementById('res').innerHTML = `
-            <div class="row"><span>Jenis:</span><span style="text-transform:capitalize">${type}</span></div>
-            <div class="row"><span>Kadar:</span><span>RM ${displayRate} / ${unitType}²</span></div>
-            <div class="row"><span>Sticker (x${units}):</span><span>RM ${totalSticker.toFixed(2)}</span></div>
-            <div class="row"><span>Deposit:</span><span>RM ${totalDeposit.toFixed(2)}</span></div>
-            <hr style="border:none; border-bottom: 1px dashed rgba(255,255,255,0.1); margin: 8px 0;">
-            <div class="row"><span>Permit (${months} bln):</span><span>RM ${totalPermit.toFixed(2)}</span></div>
-        `;
-        
-        document.getElementById('total').innerText = "RM " + grand.toFixed(2);
-        document.getElementById('modalRes').style.display = 'flex';
+        document.getElementById('res').innerHTML = `<div class="row"><span>Permit:</span><span>RM ${permit.toFixed(2)}</span></div><div class="row"><span>Sticker:</span><span>RM ${sticker.toFixed(2)}</span></div><div class="row"><span>Deposit:</span><span>RM ${deposit.toFixed(2)}</span></div>`;
+        document.getElementById('total').innerText = "RM " + (permit + sticker + deposit).toFixed(2);
+        bukaModal('modalRes');
     }
 </script>
-
 </body>
 </html>
