@@ -1,1 +1,218 @@
 
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaPI MD Bau ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #6366f1; --bg: #0b0f1a; --card-bg: #1e293b; --text: #f8fafc; --accent: #22d3ee; }
+        
+        body { 
+            background-color: var(--bg);
+            color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        /* Background Clouds Animation */
+        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .cloud {
+            position: absolute; width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(60px);
+            animation: float 18s infinite ease-in-out;
+        }
+        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(80px, 40px); } }
+
+        @keyframes pulseGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(34, 211, 238, 0.2); color: #fff; }
+            50% { text-shadow: 0 0 25px rgba(34, 211, 238, 0.8); color: var(--accent); }
+        }
+
+        header { background-color: rgba(15, 23, 42, 0.8); padding: 60px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin: 0; animation: pulseGlow 4s infinite ease-in-out; }
+        header p { font-size: 11px; letter-spacing: 1px; color: #94a3b8; margin-top: 5px; }
+
+        .container { max-width: 420px; margin: -30px auto 20px; padding: 0 15px; position: relative; z-index: 2; }
+        .card { 
+            background: rgba(30, 41, 59, 0.9); padding: 25px; border-radius: 24px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+        }
+        
+        label { display: block; color: var(--accent); font-size: 9px; margin-bottom: 5px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        select, input { width: 100%; padding: 14px; margin-bottom: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; color: white; font-size: 14px; outline: none; box-sizing: border-box; }
+        
+        .btn-kira { 
+            width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent), var(--primary)); 
+            color: #0f172a; border: none; border-radius: 50px; font-weight: 900; text-transform: uppercase; 
+            cursor: pointer; box-shadow: 0 10px 20px rgba(34, 211, 238, 0.2); transition: 0.3s;
+        }
+
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.96); align-items: center; justify-content: center; z-index: 99; backdrop-filter: blur(12px); }
+        .modal-box { background: var(--card-bg); padding: 25px; border-radius: 28px; width: 90%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); text-align: center; max-height: 85vh; overflow-y: auto; }
+        
+        .depo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .depo-col { background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 15px; border: 1px solid rgba(34, 211, 238, 0.1); }
+        .depo-title { color: var(--accent); font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .depo-val { font-size: 11px; color: #cbd5e1; line-height: 1.4; }
+
+        .guide-section { text-align: left; background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 15px; margin-bottom: 15px; font-size: 11px; color: #94a3b8; border-left: 3px solid var(--primary); }
+
+        .total-display { font-size: 40px; font-weight: 900; margin: 15px 0; color: #fff; text-shadow: 0 0 15px var(--accent); }
+        .row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .floating-group { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 10; }
+        .fab { width: 45px; height: 45px; background: var(--card-bg); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+
+        footer { text-align: center; padding: 40px; color: #64748b; }
+        .footer-sig { font-style: italic; font-size: 9px; color: rgba(148, 163, 184, 0.5); }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow">
+    <div class="cloud" style="top: 5%; left: -80px;"></div>
+    <div class="cloud" style="bottom: 15%; right: -80px; background: radial-gradient(circle, rgba(34, 211, 238, 0.1) 0%, transparent 70%);"></div>
+</div>
+
+<header>
+    <h1>CaPI MD Bau</h1>
+    <p>Calculator Permit Iklan MD Bau</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <label>Jenis Iklan</label>
+        <select id="type">
+            <option value="banner">Kain Rentang / Banner</option>
+            <option value="bunting">Bunting / Fishtails</option>
+        </select>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+            <label>Ukuran</label>
+            <select id="main_unit" style="width:auto; padding:2px 8px; font-size:10px; height:25px; margin:0; border-color:var(--accent);">
+                <option value="ft">FEET (FT)</option>
+                <option value="m">METER (M)</option>
+            </select>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <input type="number" id="w" placeholder="Lebar" value="3">
+            <input type="number" id="h" placeholder="Tinggi" value="10">
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1"><label>Unit / Helai</label><input type="number" id="units" value="1"></div>
+            <div style="flex:1"><label>Bulan</label><input type="number" id="months" value="1"></div>
+        </div>
+
+        <button class="btn-kira" onclick="kira()">Kira Sekarang</button>
+    </div>
+</div>
+
+<div class="floating-group">
+    <div class="fab" onclick="bukaModal('modalSwap')">🔄</div>
+    <div class="fab" onclick="bukaModal('modalGuide')">📖</div>
+</div>
+
+<!-- Modal Converter -->
+<div id="modalSwap" class="modal">
+    <div class="modal-box" style="max-width: 280px;">
+        <h3 style="color:var(--accent); margin-top:0;">Converter</h3>
+        <label>Meter</label><input type="number" id="mIn" oninput="mToFt()" placeholder="0.00">
+        <label>Feet</label><input type="number" id="ftIn" oninput="ftToM()" placeholder="0.00">
+        <button onclick="tutupAll()" style="background:#334155; color:white; border:none; padding:10px 25px; border-radius:50px; cursor:pointer; font-size:11px;">Tutup</button>
+    </div>
+</div>
+
+<!-- Modal Guide -->
+<div id="modalGuide" class="modal">
+    <div class="modal-box">
+        <h3 style="color:var(--accent); margin:0 0 15px 0;">Panduan Pengiraan</h3>
+        
+        <div class="guide-section">
+            <b style="color:white">Formula Pengiraan:</b><br>
+            Akan dikemaskini.
+        </div>
+
+        <h4 style="font-size:12px; color:white; text-align:left; margin-bottom:8px;">Deposit Fi</h4>
+        <div class="depo-grid">
+            <div class="depo-col">
+                <span class="depo-title">Banner</span>
+                <div class="depo-val">
+                    RM50.00 sehelai
+                </div>
+            </div>
+            <div class="depo-col">
+                <span class="depo-title">Bunting</span>
+                <div class="depo-val">
+                    1-50 Helai: RM250<br>
+                    51-100 Helai: RM500<br>
+                    (Gandaan RM250/50 unit)
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" style="margin-top:20px; border-left-color:var(--accent)">
+            <b style="color:white">Lain-lain Caj:</b><br>
+            • Sticker Fee: RM2.00 per helai
+        </div>
+
+        <button onclick="tutupAll()" style="background:var(--primary); color:white; border:none; padding:12px 40px; border-radius:50px; cursor:pointer; font-size:12px; font-weight:bold; width:100%;">Kembali</button>
+    </div>
+</div>
+
+<!-- Result Modal -->
+<div id="modalRes" class="modal">
+    <div class="modal-box">
+        <h3 style="color:var(--accent); margin:0;">Kiraan Selesai</h3>
+        <div id="res"></div>
+        <div class="total-display" id="total"></div>
+        <button onclick="tutupAll()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:12px 25px; border-radius:50px; cursor:pointer; font-size:12px;">Tutup</button>
+    </div>
+</div>
+
+<footer>
+    <p style="font-size:10px;">Nota: Perubahan pada caj adalah tertakluk kepada arahan semasa Jabatan.</p>
+    <span class="footer-sig">@2026 Enf_MD Bau</span>
+</footer>
+
+<script>
+    function bukaModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function tutupAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function mToFt() { const m = document.getElementById('mIn').value; document.getElementById('ftIn').value = m ? (m * 3.28084).toFixed(2) : ""; }
+    function ftToM() { const ft = document.getElementById('ftIn').value; document.getElementById('mIn').value = ft ? (ft / 3.28084).toFixed(2) : ""; }
+
+    function kira() {
+        const type = document.getElementById('type').value;
+        const unitType = document.getElementById('main_unit').value;
+        const rawW = parseFloat(document.getElementById('w').value) || 0;
+        const rawH = parseFloat(document.getElementById('h').value) || 0;
+        const units = parseInt(document.getElementById('units').value) || 0;
+        const months = parseInt(document.getElementById('months').value) || 1;
+
+        let w_ft = (unitType === 'm') ? rawW * 3.28084 : rawW;
+        let h_ft = (unitType === 'm') ? rawH * 3.28084 : rawH;
+        let area = w_ft * h_ft;
+
+        let rate = (type === 'banner') ? (area <= 30 ? 1.0 : area <= 36 ? 0.97 : 0.88) : (area <= 10 ? 1.5 : area <= 12 ? 1.41 : 1.15);
+        
+        let totalPermit = area * rate * units * months;
+        let totalSticker = 2.00 * units;
+        let totalDepositFi = (type === 'banner') ? (50 * units) : (units > 0 ? Math.ceil(units / 50) * 250 : 0);
+
+        document.getElementById('res').innerHTML = `
+            <div class="row"><span>Jenis:</span><span>${type === 'banner' ? 'Banner' : 'Bunting'}</span></div>
+            <div class="row"><span>Permit (Rate RM${rate.toFixed(2)}):</span><span>RM ${totalPermit.toFixed(2)}</span></div>
+            <div class="row"><span>Sticker Fee:</span><span>RM ${totalSticker.toFixed(2)}</span></div>
+            <div class="row"><span>Deposit Fi:</span><span>RM ${totalDepositFi.toFixed(2)}</span></div>
+        `;
+        document.getElementById('total').innerText = "RM " + (totalPermit + totalSticker + totalDepositFi).toFixed(2);
+        bukaModal('modalRes');
+    }
+</script>
+</body>
+</html>
