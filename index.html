@@ -57,7 +57,7 @@
 
     <header>
         <h1>Giant Banner</h1>
-        <p>Kalkulator Permit Permit MD Bau</p>
+        <p>Kalkulator Permit MD Bau</p>
     </header>
 
     <div class="container">
@@ -65,11 +65,11 @@
             
             <div style="display: flex; gap: 15px; margin-bottom: 5px;">
                 <div class="form-group" style="flex: 1;">
-                    <label>Lebar (Kaki / ft)</label>
+                    <label>Lebar (Kaki)</label>
                     <input type="number" id="customWidth" value="10" step="0.5">
                 </div>
                 <div class="form-group" style="flex: 1;">
-                    <label>Tinggi (Kaki / ft)</label>
+                    <label>Tinggi (Kaki)</label>
                     <input type="number" id="customHeight" value="12" step="0.5">
                 </div>
             </div>
@@ -91,10 +91,9 @@
         <div class="rules-section">
             <h3>📜 Formula & Syarat MD Bau</h3>
             <ul style="padding-left: 20px;">
-                <li>Input saiz dalam **Kaki (ft)** ditukar automatik kepada **Meter Persegi (sq.m)**.</li>
-                <li>Kadar lesen: Meter persegi pertama = **RM70.00**, seterusnya = **RM50.00**.</li>
-                <li>Wang pertaruhan / Deposit tetap: **RM1,000.00** (Maksimum).</li>
-                <li>Caj pelekat (sticker) berharga **RM2.00** untuk setiap unit.</li>
+                <li>Pengiraan dilesenkan mengikut kadar rasmi undang-undang kecil PBT.</li>
+                <li>Wang pertaruhan / Deposit tetap: RM1,000.00 (Maksimum).</li>
+                <li>Caj pelekat (sticker) berharga RM2.00 untuk setiap unit.</li>
             </ul>
         </div>
     </div>
@@ -103,6 +102,7 @@
         <p>enf md bau</p>
     </footer>
 
+    <!-- Result Pop-up -->
     <div id="modal">
         <div class="modal-content">
             <h2 style="color: var(--accent); margin-top: 0;">Hasil Kiraan</h2>
@@ -114,22 +114,22 @@
 
     <script>
         function calculateGiantBanner() {
-            const units = parseInt(document.getElementById('units').value) || 0;
-            const months = parseInt(document.getElementById('months').value) || 0;
-            const wFt = parseFloat(document.getElementById('customWidth').value) || 0;
-            const hFt = parseFloat(document.getElementById('customHeight').value) || 0;
+            var units = parseInt(document.getElementById('units').value) || 0;
+            var months = parseInt(document.getElementById('months').value) || 0;
+            var wFt = parseFloat(document.getElementById('customWidth').value) || 0;
+            var hFt = parseFloat(document.getElementById('customHeight').value) || 0;
             
-            const stickerFeePerPiece = 2.00;
-            const depositFee = 1000.00;
+            var stickerFeePerPiece = 2.00;
+            var depositFee = 1000.00;
 
-            // Tukar kaki persegi ke meter persegi (1 kaki = 0.3048 meter)
-            const wM = wFt * 0.3048;
-            const hM = hFt * 0.3048;
-            const totalSqM = wM * hM;
+            // Tukar kaki ke meter secara dalaman (1 kaki = 0.3048 meter)
+            var wM = wFt * 0.3048;
+            var hM = hFt * 0.3048;
+            var totalSqM = wM * hM;
             
-            const infoSaiz = `${wFt}' x ${hFt}' (~${totalSqM.toFixed(2)} sq.m)`;
+            var infoSaiz = wFt + " ft x " + hFt + " ft";
 
-            let feePerUnit = 0;
+            var feePerUnit = 0;
             if (totalSqM > 0) {
                 if (totalSqM <= 1) {
                     feePerUnit = 70.00;
@@ -138,17 +138,16 @@
                 }
             }
 
-            const licenseFee = feePerUnit * units * months;
-            const totalSticker = stickerFeePerPiece * units;
-            const grandTotal = licenseFee + depositFee + totalSticker;
+            var licenseFee = feePerUnit * units * months;
+            var totalSticker = stickerFeePerPiece * units;
+            var grandTotal = licenseFee + depositFee + totalSticker;
 
-            document.getElementById('resultDetails').innerHTML = `
-                <div class="price-row"><span>Kategori:</span> <strong style="color:var(--primary)">GIANT BANNER</strong></div>
-                <div class="price-row"><span>Dimensi Input:</span> <span>${infoSaiz}</span></div>
-                <div class="price-row"><span>Caj Lesen:</span> <span>RM ${licenseFee.toFixed(2)}</span></div>
-                <div class="price-row"><span>Caj Sticker:</span> <span>RM ${totalSticker.toFixed(2)}</span></div>
-                <div class="price-row"><span>Deposit:</span> <span>RM ${depositFee.toFixed(2)}</span></div>
-            `;
+            document.getElementById('resultDetails').innerHTML = 
+                '<div class="price-row"><span>Kategori:</span> <strong style="color:var(--primary)">GIANT BANNER</strong></div>' +
+                '<div class="price-row"><span>Dimensi:</span> <span>' + infoSaiz + '</span></div>' +
+                '<div class="price-row"><span>Caj Lesen:</span> <span>RM ' + licenseFee.toFixed(2) + '</span></div>' +
+                '<div class="price-row"><span>Caj Sticker:</span> <span>RM ' + totalSticker.toFixed(2) + '</span></div>' +
+                '<div class="price-row"><span>Deposit:</span> <span>RM ' + depositFee.toFixed(2) + '</span></div>';
             
             document.getElementById('totalDisplay').innerText = "RM " + grandTotal.toFixed(2);
             document.getElementById('modal').style.display = 'flex';
