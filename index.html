@@ -139,4 +139,24 @@
             }
 
             const licenseFee = feePerUnit * units * months;
-            const totalSticker = stickerFeePerPiece * units
+            const totalSticker = stickerFeePerPiece * units;
+            const grandTotal = licenseFee + depositFee + totalSticker;
+
+            document.getElementById('resultDetails').innerHTML = `
+                <div class="price-row"><span>Kategori:</span> <strong style="color:var(--primary)">GIANT BANNER</strong></div>
+                <div class="price-row"><span>Dimensi Input:</span> <span>${infoSaiz}</span></div>
+                <div class="price-row"><span>Caj Lesen:</span> <span>RM ${licenseFee.toFixed(2)}</span></div>
+                <div class="price-row"><span>Caj Sticker:</span> <span>RM ${totalSticker.toFixed(2)}</span></div>
+                <div class="price-row"><span>Deposit:</span> <span>RM ${depositFee.toFixed(2)}</span></div>
+            `;
+            
+            document.getElementById('totalDisplay').innerText = "RM " + grandTotal.toFixed(2);
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
