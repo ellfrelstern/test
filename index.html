@@ -3,158 +3,793 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giant Banner</title>
+    <title>Kalkulator Permit Iklan - Majlis Daerah Bau</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- CSS VARIABLES (MINIMALIST THEME) --- */
         :root {
-            --primary: #ec4899;
-            --secondary: #8b5cf6;
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f8fafc;
-            --accent: #f43f5e;
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b, #111827);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-focus: rgba(99, 102, 241, 0.2);
+            --modal-bg: #0b0f19;
+            --panel-bg: rgba(0, 0, 0, 0.2);
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 40px; }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 50px 20px;
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f8fafc, #e2e8f0, #f1f5f9);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #4f46e5;
+            --accent-hover: #4338ca;
+            --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            --input-bg: rgba(0, 0, 0, 0.03);
+            --input-focus: rgba(79, 70, 229, 0.1);
+            --modal-bg: #ffffff;
+            --panel-bg: rgba(0, 0, 0, 0.02);
+        }
+
+        /* --- BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 10px;
+        }
+
+        /* --- CONTAINER --- */
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 5px;
+        }
+
+        .theme-toggle-btn, .rate-modal-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 8px 14px;
+            border-radius: 20px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover, .rate-modal-btn:hover {
+            background: var(--glass-border);
+        }
+
+        .main-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        /* --- POSTER HEADER --- */
+        .banner-header {
+            width: calc(100% + 48px);
+            margin: -24px -24px 20px -24px;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #0d0e12;
+            border-bottom: 2px solid #b6985b;
+            overflow: hidden;
+        }
+
+        .banner-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- LAYOUT COMPACT --- */
+        .form-group {
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .dimen-group {
+            display: grid;
+            grid-template-columns: 1.3fr 1.3fr 1fr;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .row-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--input-focus);
+        }
+
+        .btn-converter {
+            width: 100%;
+            padding: 10px 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 38px;
+            transition: all 0.2s ease;
+        }
+        [data-theme="light"] .btn-converter {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .btn-converter:hover {
+            background: var(--glass-border);
+            border-color: var(--accent);
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            background-color: #000;
+            color: #fff;
             text-align: center;
-            border-bottom: 4px solid var(--accent);
+            border-radius: 4px;
+            padding: 4px 8px;
+            position: absolute;
+            z-index: 10;
+            bottom: 105%;
+            left: 0;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
         }
-        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: -1px; font-weight: 800; }
-        header p { opacity: 0.9; font-weight: 300; margin: 5px 0 0; font-size: 0.95rem; }
 
-        .container { max-width: 500px; margin: -30px auto 30px; padding: 0 15px; }
-        .calc-card { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255,255,255,0.05); }
-        
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-        input { width: 100%; padding: 12px; background: #334155; border: 1px solid #475569; border-radius: 10px; color: white; font-size: 1rem; outline: none; }
-        input:focus { border-color: var(--accent); }
+        .form-group:hover .tooltip-text {
+            visibility: visible;
+            opacity: 0.9;
+        }
 
-        button { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
-        button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        /* --- LIVE PREVIEW STRIP --- */
+        .live-preview-strip {
+            background: var(--panel-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
 
-        /* Rules Section */
-        .rules-section { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 15px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.05); }
-        .rules-section h3 { color: var(--primary); margin-top: 0; }
-        .rules-section li { margin-bottom: 8px; font-size: 0.9rem; opacity: 0.85; }
+        .preview-item {
+            display: flex;
+            flex-direction: column;
+        }
 
-        /* Modal Pop-up */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 24px; max-width: 450px; width: 90%; border: 2px solid var(--accent); text-align: center; }
-        .price-row { display: flex; justify-content: space-between; margin: 12px 0; padding-bottom: 8px; border-bottom: 1px solid #334155; font-size: 0.95rem; }
-        .total-price { font-size: 2.2rem; color: white; margin: 20px 0; font-weight: 800; text-shadow: 0 0 10px rgba(244, 63, 94, 0.3); }
-        .close-btn { background: #334155; color: white; margin-top: 15px; border: 1px solid #475569; }
-        .close-btn:hover { background: #475569; }
+        .preview-item.right {
+            text-align: right;
+        }
 
-        footer { text-align: center; padding: 20px; font-size: 0.85rem; opacity: 0.6; font-weight: bold; letter-spacing: 0.5px; }
+        .preview-lbl {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .preview-val {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* --- BUTTONS --- */
+        .btn-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        button.action-btn {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-calc {
+            background: var(--accent);
+            color: #fff;
+            flex: 2;
+        }
+
+        .btn-calc:hover { background: var(--accent-hover); }
+
+        .btn-reset {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--glass-border);
+            flex: 1;
+        }
+
+        .btn-reset:hover {
+            background: var(--input-bg);
+            color: var(--text-main);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* --- MODAL POPUPS & TABLE --- */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            padding: 10px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border: 1px solid var(--glass-border);
+            width: 100%;
+            max-width: 440px;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(10px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none; border:none;
+            color: var(--text-muted);
+            font-size: 1.3rem; cursor: pointer;
+        }
+
+        .rate-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .rate-table th, .rate-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .rate-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .rate-table td {
+            font-weight: 500;
+        }
+
+        .receipt-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.85rem;
+        }
+
+        .receipt-item:last-child {
+            border-bottom: none;
+            margin-top: 10px;
+            padding-top: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .receipt-label { color: var(--text-muted); }
+        .receipt-val { font-weight: 500; text-align: right; }
+
+        .converter-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* --- TOAST --- */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%, 20px);
+            background: var(--accent);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+        .toast.error { background: #ef4444; }
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
     </style>
 </head>
-<body>
+<body data-theme="dark">
 
-    <header>
-        <h1>Giant Banner</h1>
-        <p>Kalkulator Permit MD Bau</p>
-    </header>
+    <div class="wrapper">
+        <div class="top-actions">
+            <button class="rate-modal-btn" id="btnBukaKadar">📋 Kadar Permit Iklan</button>
+            <button class="theme-toggle-btn" id="themeToggle">☀️ Light</button>
+        </div>
 
-    <div class="container">
-        <div class="calc-card">
+        <div class="main-card">
+            <div class="banner-header">
+                <img src="poster.png" alt="ENF MD BAU Poster">
+            </div>
+
+            <form id="calcForm" onsubmit="return false;">
+                
+                <div class="form-group">
+                    <label for="kategori">Kategori Iklan</label>
+                    <select id="kategori" tabindex="1" autofocus>
+                        <option value="Banner">1. Banner</option>
+                        <option value="Fishtail">2. Fishtail</option>
+                        <option value="Giant Banner">3. Giant Banner</option>
+                    </select>
+                    <span class="tooltip-text">Pilih kategori struktur iklan</span>
+                </div>
+
+                <div class="dimen-group form-group">
+                    <div>
+                        <label for="tinggi">Tinggi (ft)</label>
+                        <input type="number" id="tinggi" step="any" min="0.01" required tabindex="2" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label for="lebar">Lebar (ft)</label>
+                        <input type="number" id="lebar" step="any" min="0.01" required tabindex="3" placeholder="0.00">
+                    </div>
+                    <div>
+                        <button type="button" class="btn-converter" id="btnBukaConverter">🔄 m to ft</button>
+                    </div>
+                </div>
+
+                <div class="row-group form-group">
+                    <div>
+                        <label for="jumlahUnit">Kuantiti (Unit)</label>
+                        <input type="number" id="jumlahUnit" min="1" value="1" required tabindex="4">
+                    </div>
+                    <div>
+                        <label for="tempoh">Tempoh (Bulan)</label>
+                        <input type="number" id="tempoh" min="1" value="1" required tabindex="5">
+                    </div>
+                </div>
+
+                <div class="live-preview-strip">
+                    <div class="preview-item">
+                        <span class="preview-lbl">Keluasan</span>
+                        <span class="preview-val" id="liveArea">0.00 sq.ft</span>
+                    </div>
+                    <div class="preview-item right">
+                        <span class="preview-lbl">Caj Seunit / Bulan</span>
+                        <span class="preview-val" id="liveFee">RM 0</span>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" class="action-btn btn-calc" id="btnKira" tabindex="6">Kira Keseluruhan</button>
+                    <button type="button" class="action-btn btn-reset" id="btnReset" tabindex="7">Reset</button>
+                </div>
+
+            </form>
+        </div>
+
+        <footer>
+            © 2026 ENF MD BAU
+        </footer>
+    </div>
+
+    <div class="modal-overlay" id="rateModalOverlay">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Jadual Kadar Permit Iklan</h2>
+                <button class="modal-close" id="rateModalClose">&times;</button>
+            </div>
             
-            <div style="display: flex; gap: 15px; margin-bottom: 5px;">
-                <div class="form-group" style="flex: 1;">
-                    <label>Lebar (Kaki)</label>
-                    <input type="number" id="customWidth" value="10" step="0.5">
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>Tinggi (Kaki)</label>
-                    <input type="number" id="customHeight" value="12" step="0.5">
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="form-group">
-                    <label>Jumlah Unit (Pcs)</label>
-                    <input type="number" id="units" value="1" min="1">
-                </div>
-                <div class="form-group">
-                    <label>Tempoh (Bulan)</label>
-                    <input type="number" id="months" value="1" min="1">
-                </div>
-            </div>
-
-            <button onclick="calculateGiantBanner()">Hitung Harga</button>
-        </div>
-
-        <div class="rules-section">
-            <h3>📜 Formula & Syarat MD Bau</h3>
-            <ul style="padding-left: 20px;">
-                <li>Pengiraan dilesenkan mengikut kadar rasmi undang-undang kecil PBT.</li>
-                <li>Wang pertaruhan / Deposit tetap: RM1,000.00 (Maksimum).</li>
-                <li>Caj pelekat (sticker) berharga RM2.00 untuk setiap unit.</li>
-            </ul>
+            <table class="rate-table">
+                <thead>
+                    <tr>
+                        <th>Kategori</th>
+                        <th>1st sq.ft</th>
+                        <th>Sub sq.ft</th>
+                        <th>Deposit (RM)</th>
+                        <th>Sticker</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:600;">Banner</td>
+                        <td>RM 15</td>
+                        <td>RM 8</td>
+                        <td>RM 50 / unit</td>
+                        <td>RM 2</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Fishtail</td>
+                        <td>RM 15</td>
+                        <td>RM 8</td>
+                        <td>&le;50 u: RM250<br>&gt;50 u: RM500</td>
+                        <td>RM 2</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Giant Banner</td>
+                        <td>RM 70</td>
+                        <td>RM 50</td>
+                        <td>Min: 1,000<br>Max: 5,000</td>
+                        <td>RM 2</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button type="button" class="action-btn btn-calc" style="width:100%;" id="rateModalDone">Tutup</button>
         </div>
     </div>
 
-    <footer>
-        <p>enf md bau</p>
-    </footer>
+    <div class="modal-overlay" id="convertModalOverlay">
+        <div class="modal-content" style="max-width: 320px;">
+            <div class="modal-header">
+                <h2>Tukar Meter ke Kaki</h2>
+                <button class="modal-close" id="convertModalClose">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="inputMeter">Nilai Dalam Meter (m)</label>
+                <div class="converter-box">
+                    <input type="number" id="inputMeter" step="any" placeholder="Contoh: 3.5" autofocus>
+                </div>
+            </div>
+            <div class="form-group" style="background: var(--panel-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--glass-border);">
+                <span class="preview-lbl">Hasil Tukaran:</span>
+                <div style="font-weight: 600; font-size: 1.1rem; color: var(--accent);" id="convertResult">0.000 ft</div>
+            </div>
+            <button type="button" class="action-btn btn-calc" style="width:100%;" id="btnSalinFit">Guna Nilai Kaki</button>
+        </div>
+    </div>
 
-    <!-- Result Pop-up -->
-    <div id="modal">
+    <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <h2 style="color: var(--accent); margin-top: 0;">Hasil Kiraan</h2>
-            <div id="resultDetails"></div>
-            <div class="total-price" id="totalDisplay"></div>
-            <button class="close-btn" onclick="closeModal()">Tutup Semakan</button>
+            <div class="modal-header">
+                <h2>Ringkasan Pengiraan</h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <ul class="receipt-list">
+                <li class="receipt-item"><span class="receipt-label">Kategori</span><span class="receipt-val" id="resKategori">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Dimensi Saiz</span><span class="receipt-val" id="resSaiz">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Keluasan (sq.ft)</span><span class="receipt-val" id="resKeluasan">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Caj Seunit (Math.round)</span><span class="receipt-val" id="resCajSeunit">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Unit & Tempoh</span><span class="receipt-val" id="resKuantiti">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Jumlah Lesen</span><span class="receipt-val" id="resTotalLesen">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Sticker</span><span class="receipt-val" id="resSticker">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Deposit</span><span class="receipt-val" id="resDeposit">-</span></li>
+                <li class="receipt-item"><span class="receipt-label">Jumlah Keseluruhan</span><span class="receipt-val" id="resGrandTotal">-</span></li>
+            </ul>
+            <button type="button" class="action-btn btn-calc" style="width:100%;" onclick="closeModal()">Selesai</button>
         </div>
     </div>
+
+    <div class="toast" id="toastBox">Notifikasi</div>
 
     <script>
-        function calculateGiantBanner() {
-            var units = parseInt(document.getElementById('units').value) || 0;
-            var months = parseInt(document.getElementById('months').value) || 0;
-            var wFt = parseFloat(document.getElementById('customWidth').value) || 0;
-            var hFt = parseFloat(document.getElementById('customHeight').value) || 0;
-            
-            var stickerFeePerPiece = 2.00;
-            var depositFee = 1000.00;
+        const themeToggle = document.getElementById('themeToggle');
+        const bodyEl = document.body;
 
-            // Tukar kaki ke meter secara dalaman (1 kaki = 0.3048 meter)
-            var wM = wFt * 0.3048;
-            var hM = hFt * 0.3048;
-            var totalSqM = wM * hM;
-            
-            var infoSaiz = wFt + " ft x " + hFt + " ft";
+        const kategoriSelect = document.getElementById('kategori');
+        const tinggiInput = document.getElementById('tinggi');
+        const lebarInput = document.getElementById('lebar');
+        const jumlahUnitInput = document.getElementById('jumlahUnit');
+        const tempohInput = document.getElementById('tempoh');
 
-            var feePerUnit = 0;
-            if (totalSqM > 0) {
-                if (totalSqM <= 1) {
-                    feePerUnit = 70.00;
-                } else {
-                    feePerUnit = 70.00 + ((totalSqM - 1) * 50.00);
-                }
+        const liveArea = document.getElementById('liveArea');
+        const liveFee = document.getElementById('liveFee');
+
+        const btnKira = document.getElementById('btnKira');
+        const btnReset = document.getElementById('btnReset');
+        
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+
+        const rateModalOverlay = document.getElementById('rateModalOverlay');
+        const rateModalClose = document.getElementById('rateModalClose');
+        const rateModalDone = document.getElementById('rateModalDone');
+        const btnBukaKadar = document.getElementById('btnBukaKadar');
+
+        const convertModalOverlay = document.getElementById('convertModalOverlay');
+        const convertModalClose = document.getElementById('convertModalClose');
+        const btnBukaConverter = document.getElementById('btnBukaConverter');
+        const inputMeter = document.getElementById('inputMeter');
+        const convertResult = document.getElementById('convertResult');
+        const btnSalinFit = document.getElementById('btnSalinFit');
+
+        themeToggle.addEventListener('click', () => {
+            if (bodyEl.getAttribute('data-theme') === 'dark') {
+                bodyEl.setAttribute('data-theme', 'light');
+                themeToggle.innerText = '🌙 Dark';
+            } else {
+                bodyEl.setAttribute('data-theme', 'dark');
+                themeToggle.innerText = '☀️ Light';
             }
+        });
 
-            var licenseFee = feePerUnit * units * months;
-            var totalSticker = stickerFeePerPiece * units;
-            var grandTotal = licenseFee + depositFee + totalSticker;
+        const rates = {
+            'Banner': { first: 15, next: 8 },
+            'Fishtail': { first: 15, next: 8 },
+            'Giant Banner': { first: 70, next: 50 }
+        };
 
-            document.getElementById('resultDetails').innerHTML = 
-                '<div class="price-row"><span>Kategori:</span> <strong style="color:var(--primary)">GIANT BANNER</strong></div>' +
-                '<div class="price-row"><span>Dimensi:</span> <span>' + infoSaiz + '</span></div>' +
-                '<div class="price-row"><span>Caj Lesen:</span> <span>RM ' + licenseFee.toFixed(2) + '</span></div>' +
-                '<div class="price-row"><span>Caj Sticker:</span> <span>RM ' + totalSticker.toFixed(2) + '</span></div>' +
-                '<div class="price-row"><span>Deposit:</span> <span>RM ' + depositFee.toFixed(2) + '</span></div>';
-            
-            document.getElementById('totalDisplay').innerText = "RM " + grandTotal.toFixed(2);
-            document.getElementById('modal').style.display = 'flex';
+        function getComputedValues() {
+            const tinggi = parseFloat(tinggiInput.value) || 0;
+            const lebar = parseFloat(lebarInput.value) || 0;
+            const areaSqFt = tinggi * lebar;
+
+            const kat = kategoriSelect.value;
+            const config = rates[kat];
+            let unitFee = 0;
+
+            if (areaSqFt > 0) {
+                if (areaSqFt <= 1) {
+                    unitFee = config.first;
+                } else {
+                    unitFee = config.first + ((areaSqFt - 1) * config.next);
+                }
+                unitFee = Math.round(unitFee);
+            }
+            return { areaSqFt, unitFee };
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+        function calculateLive() {
+            const { areaSqFt, unitFee } = getComputedValues();
+            liveArea.innerText = `${areaSqFt.toFixed(2)} sq.ft`;
+            liveFee.innerText = `RM ${unitFee}`;
+        }
+
+        [kategoriSelect, tinggiInput, lebarInput, jumlahUnitInput, tempohInput].forEach(el => {
+            el.addEventListener('input', calculateLive);
+        });
+
+        function processCalculation() {
+            if (!tinggiInput.value || !lebarInput.value || parseInt(jumlahUnitInput.value) < 1 || parseInt(tempohInput.value) < 1) {
+                showToast("Sila isi semua nilai dimensi dengan sah.", "error");
+                return;
+            }
+
+            const kat = kategoriSelect.value;
+            const units = parseInt(jumlahUnitInput.value);
+            const months = parseInt(tempohInput.value);
+            const { areaSqFt, unitFee } = getComputedValues();
+
+            const totalLesen = unitFee * units * months;
+            const totalSticker = units * 2;
+            
+            let depositText = "Tiada";
+            let depositValue = 0;
+
+            if (kat === 'Banner') {
+                depositValue = 50 * units;
+                depositText = `RM ${depositValue}`;
+            } else if (kat === 'Fishtail') {
+                depositValue = units <= 50 ? 250 : 500;
+                depositText = `RM ${depositValue}`;
+            } else if (kat === 'Giant Banner') {
+                depositText = "Rujuk Pegawai (Min 1,000 - Max 5,000)";
+                depositValue = 0; 
+            }
+
+            const grandTotal = totalLesen + totalSticker + depositValue;
+
+            document.getElementById('resKategori').innerText = kat;
+            document.getElementById('resSaiz').innerText = `${tinggiInput.value} x ${lebarInput.value} ft`;
+            document.getElementById('resKeluasan').innerText = `${areaSqFt.toFixed(2)} sq.ft`;
+            document.getElementById('resCajSeunit').innerText = `RM ${unitFee}`;
+            document.getElementById('resKuantiti').innerText = `${units} Unit / ${months} Bulan`;
+            document.getElementById('resTotalLesen').innerText = `RM ${totalLesen}`;
+            document.getElementById('resSticker').innerText = `RM ${totalSticker}`;
+            document.getElementById('resDeposit').innerText = depositText;
+            
+            document.getElementById('resGrandTotal').innerText = kat === 'Giant Banner' ? `RM ${grandTotal} + Deposit` : `RM ${grandTotal}`;
+
+            openModal();
+            showToast("Pengiraan siap diproses.");
+        }
+
+        btnKira.addEventListener('click', processCalculation);
+        btnReset.addEventListener('click', () => {
+            document.getElementById('calcForm').reset();
+            calculateLive();
+            showToast("Borang dikosongkan.");
+            kategoriSelect.focus();
+        });
+
+        const sequence = [kategoriSelect, tinggiInput, lebarInput, jumlahUnitInput, tempohInput, btnKira];
+        sequence.forEach((el, idx) => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (idx === sequence.length - 1) processCalculation();
+                    else sequence[idx + 1].focus();
+                }
+            });
+        });
+
+        function openModal() { modalOverlay.classList.add('active'); }
+        function closeModal() { modalOverlay.classList.remove('active'); }
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
+
+        btnBukaKadar.addEventListener('click', () => rateModalOverlay.classList.add('active'));
+        const closeRate = () => rateModalOverlay.classList.remove('active');
+        rateModalClose.addEventListener('click', closeRate);
+        rateModalDone.addEventListener('click', closeRate);
+        rateModalOverlay.addEventListener('click', (e) => { if(e.target === rateModalOverlay) closeRate(); });
+
+        btnBukaConverter.addEventListener('click', () => {
+            inputMeter.value = '';
+            convertResult.innerText = '0.000 ft';
+            convertModalOverlay.classList.add('active');
+            setTimeout(() => inputMeter.focus(), 100);
+        });
+        const closeConvert = () => convertModalOverlay.classList.remove('active');
+        convertModalClose.addEventListener('click', closeConvert);
+        convertModalOverlay.addEventListener('click', (e) => { if(e.target === convertModalOverlay) closeConvert(); });
+
+        inputMeter.addEventListener('input', function() {
+            const m = parseFloat(this.value) || 0;
+            const ft = m * 3.28084;
+            convertResult.innerText = `${ft.toFixed(3)} ft`;
+        });
+
+        btnSalinFit.addEventListener('click', () => {
+            const m = parseFloat(inputMeter.value) || 0;
+            if (m > 0) {
+                const ft = (m * 3.28084).toFixed(2);
+                if (!tinggiInput.value) {
+                    tinggiInput.value = ft;
+                } else {
+                    lebarInput.value = ft;
+                }
+                calculateLive();
+                closeConvert();
+                showToast("Nilai ditransfer ke borang.");
+            } else {
+                showToast("Sila masukkan nilai meter yang sah.", "error");
+            }
+        });
+
+        window.addEventListener('keydown', (e) => { 
+            if(e.key === 'Escape') { closeModal(); closeRate(); closeConvert(); } 
+        });
+
+        function showToast(msg, type = "success") {
+            const t = document.getElementById('toastBox');
+            t.innerText = msg;
+            if(type === "error") t.classList.add('error'); else t.classList.remove('error');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
         }
     </script>
 </body>
